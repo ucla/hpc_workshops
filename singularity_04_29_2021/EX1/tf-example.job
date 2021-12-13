@@ -1,0 +1,15 @@
+#!/bin/bash
+#$ -cwd
+# error = Merged with joblog
+#$ -o joblog.$JOB_ID
+#$ -j y
+#$ -l rh7,h_rt=0:30:00,h_data=15G
+
+
+# load the job environment:
+. /u/local/Modules/default/init/modules.sh
+module load singularity/3.7.1
+
+# Run singulariy as a single python3 command 
+singularity exec --userns $H2_CONTAINER_LOC/tensorflow-2.4.1-gpu-jupyter.sif  python3 tf-example.py > tf-example-batch.out
+
