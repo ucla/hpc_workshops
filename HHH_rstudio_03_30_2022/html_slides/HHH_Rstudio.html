@@ -32,7 +32,7 @@ class: center, middle, inverse, title-slide
 
 Welcome to the Hoffman2 Happy Hours
 
-Short-ish presentations on a certain topic related to HPC and Hoffman2
+Short-ish presentations on topics related to HPC and Hoffman2
 
 .pull-left[
 
@@ -44,7 +44,8 @@ cpeterson@oarc.ucla.edu
 
 .pull-right[
 
-![mypic](mypic.jpg)
+&lt;p align="center"&gt; &lt;img src="fullpic.png" width="40%"&gt; &lt;/p&gt; 
+
 ]
 
 ---
@@ -90,7 +91,7 @@ There are two main (free) RStudio IDEs that researchers can use
 .pull-left[
 ### RStudio Desktop
 
-This IDE is install locally on your machine.
+This IDE is installed locally on your machine.
 
 This is a standalone desktop application.
 ]
@@ -99,7 +100,7 @@ This is a standalone desktop application.
 .pull-right[
 ### RStudio Server
 
-This IDE requires a remote server to run a RStudio Server process, that
+This IDE requires a remote server to run a RStudio Server process that
 you can connect and run on a local web browser
 ]
 
@@ -109,7 +110,7 @@ you can connect and run on a local web browser
 
 While we do have a RStudio Desktop version on Hoffman2, this would
 require X11 forwarding to display RStudio on a local machine. This can
-be very slow and the interactive maybe sluggish depending on your
+be very slow and the interaction may be sluggish depending on your
 connection.
 
 **RStudio Server** is the best way to use RStudio on Hoffman2
@@ -119,13 +120,13 @@ connection.
 Hoffman2 has a container that has R/Rstudio that can be ran on with
 Apptainer/Singularity
 
-For more information on using containers, there is a Workshop [Using
+For more information on using containers, there will be a Workshop [Using
 Containers on HPC
 resources](https://idre.ucla.edu/calendar-event/using-container-on-hpc-resources)
 on Apr 20, 2022
 
-This container is an isolate image and has it's own version of R and RStudio that is unrelated
-to the versions of R that was built on Hoffman2.
+This container is an isolate image and has its own version of R and RStudio that is unrelated
+to the versions of R that were built on Hoffman2.
 
 &lt;p align = "center"&gt; &lt;img src="rstudio.png" width="20%"&gt; &lt;/p&gt; &lt;p align = "center"&gt; rstudio.com&lt;/p&gt;
 
@@ -169,7 +170,7 @@ mkdir -pv $SCRATCH/rstudiotmp/tmp
 
 ## Running RStudio
 
-### Load Apptainer
+### Load the Apptainer module
 
 .pull-left[
 Apptainer is software that will run the Rstudio container
@@ -197,7 +198,7 @@ apptainer run \
  $H2_CONTAINER_LOC/h2-rstudio_4.1.0.sif
 ```
 
-This this point, RStudio will start to run on the compute node. You will see information about this RStudio session. You will need to take note of **compute node name** and **port number**. KEEP THIS TERMINAL OPEN.
+At this point, RStudio will start to run on the compute node. You will see information about this RStudio session. You will need to take note of **compute node name** and **port number**. KEEP THIS TERMINAL OPEN.
 
 This will also display an `ssh -N -L ...` command that you will need to run
 
@@ -231,7 +232,7 @@ http://localhost:8787
 We have created a script that will run everything from the previous
 slide automatically.
 
-User can run the `h2_rstudio.sh` script on their **local machine** to
+Users can run the `h2_rstudio.sh` script on their **local machine** to
 setup RStudio.
 
 
@@ -272,17 +273,17 @@ https://github.com/charliecpeterson/H2_software
 
 ## Information on this RStudio Container
 
-This Rstudio container will built using Docker. You can find all containers built for Hoffman2
+This Rstudio container was built using Docker. You can find all containers built for Hoffman2
 located at `$H2_CONTAINER_LOC`. The RStudio container used here is named `h2-rstudio_4.1.0.sif`
 
-All **Dockerfiles** that the container where built for Hoffman2 are located at
+All **Dockerfiles** where built for Hoffman2 are located at
 &lt;https://github.com/charliecpeterson/containers/tree/master/docker/hoffman&gt;
 
-This container has it's build of R and when you install packages, it
+This container has its own build of R and when you install packages, it
 will install by default to `~/R/APPTAINER/h2-rstudio_4.1.0`.
 
-If your R packages require extra libraries or software let us know and
-we can update this container. OR you can modify the RStudio Dockerfile
+Let us know if your R packages require extra libraries or software and
+we can update this container **OR** you can modify the RStudio Dockerfile
 and create your own container.
 
 This Dockerfile uses RStudio images from the [Rocker
@@ -297,7 +298,7 @@ versions of R and Rstudio.
 
 --
 
-- If Rstudio has problems startup, maybe clear our any tmp or config files from previous Rstudio run
+- If Rstudio has any problems at startup, try clearing out any tmp or config files from previous Rstudio runs.
 
 
 ```bash
@@ -307,7 +308,7 @@ rm -rf $SCRATCH/rstudiotmp
 
 --
 
-- You have assess to a Hoffman2 terminal in RStudio
+- You also have access to a Hoffman2 terminal in RStudio
 
 ![](rstudio_terminal.gif)
 
@@ -317,11 +318,11 @@ rm -rf $SCRATCH/rstudiotmp
 ## Using Batch R
 
 When you install packages with this RStudio container, it uses R that
-was built only for this container, separte from the R version on
+was built only for this container, separate from the R version on
 Hoffman2.
 
 You can run R inside this container if you want to continue using this
-build of R as a batch/qsub job, instead of an interactive RStudio.
+build of R as a batch/qsub job, instead of an interactive RStudio session.
 
 Create a job script, using the RStudio container, running with apptainer
 
