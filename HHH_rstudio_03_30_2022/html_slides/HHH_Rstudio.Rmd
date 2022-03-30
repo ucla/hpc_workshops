@@ -26,7 +26,9 @@ style_mono_accent(
 )
 ```
 
-
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
 
 ## Hoffman2 Happy Hours
 
@@ -49,7 +51,7 @@ cpeterson@oarc.ucla.edu
 
 ---
 
-## Files for this Presentations
+## Files for this Presentation
 
 This presentation can be found on github under `HHH_rstudio_03_30_2022` folder
 
@@ -186,16 +188,16 @@ module load apptainer/1.0.0
 ### Start up RStudio
 
 ```{bash, eval = FALSE, echo = TRUE}
-apptainer run 
- -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server 
- -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server 
- -B $SCRATCH/rstudiotmp/tmp:/tmp 
+apptainer run \
+ -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server \
+ -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server \
+ -B $SCRATCH/rstudiotmp/tmp:/tmp \
  $H2_CONTAINER_LOC/h2-rstudio_4.1.0.sif
 ```
 
 This this point, RStudio will start to run on the compute node. You will see information about this RStudio session. You will need to take note of **compute node name** and **port number**. KEEP THIS TERMINAL OPEN.
 
-This will also display an `ssh -L ...` command that you will need to run
+This will also display an `ssh -N -L ...` command that you will need to run
 
 ---
 
@@ -244,7 +246,7 @@ Typically, you will run this script by providing your Hoffman2 user name
 ./h2_rstudio.sh -u H2USERNAME
 ```
 
-This will start RStudio by running all the nessacary steps and open a
+This will start RStudio by running all the necessary steps and open a
 web browser to the correct port to Hoffman2
 
 ---
@@ -336,7 +338,7 @@ qsub rstudio_batch.job
 
 ---
 
-## Thanks!!
+## Thanks and Happy Computing!
 
 <p align = "center"> <img src="cat.png" width="90%"> </p> 
 
