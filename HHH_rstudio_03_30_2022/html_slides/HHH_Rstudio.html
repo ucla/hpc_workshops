@@ -5,6 +5,10 @@
     <meta charset="utf-8" />
     <meta name="author" content="Charles Peterson" />
     <script src="HHH_Rstudio_files/header-attrs-2.13/header-attrs.js"></script>
+    <script src="HHH_Rstudio_files/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="HHH_Rstudio_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="HHH_Rstudio_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -45,7 +49,7 @@ cpeterson@oarc.ucla.edu
 
 ---
 
-## Files for this Presentations
+## Files for this Presentation
 
 This presentation can be found on github under `HHH_rstudio_03_30_2022` folder
 
@@ -186,16 +190,16 @@ module load apptainer/1.0.0
 
 
 ```bash
-apptainer run 
- -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server 
- -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server 
- -B $SCRATCH/rstudiotmp/tmp:/tmp 
+apptainer run \
+ -B $SCRATCH/rstudiotmp/var/lib:/var/lib/rstudio-server \
+ -B $SCRATCH/rstudiotmp/var/run:/var/run/rstudio-server \
+ -B $SCRATCH/rstudiotmp/tmp:/tmp \
  $H2_CONTAINER_LOC/h2-rstudio_4.1.0.sif
 ```
 
 This this point, RStudio will start to run on the compute node. You will see information about this RStudio session. You will need to take note of **compute node name** and **port number**. KEEP THIS TERMINAL OPEN.
 
-This will also display an `ssh -L ...` command that you will need to run
+This will also display an `ssh -N -L ...` command that you will need to run
 
 ---
 
@@ -249,7 +253,7 @@ Typically, you will run this script by providing your Hoffman2 user name
 ./h2_rstudio.sh -u H2USERNAME
 ```
 
-This will start RStudio by running all the nessacary steps and open a
+This will start RStudio by running all the necessary steps and open a
 web browser to the correct port to Hoffman2
 
 ---
@@ -344,7 +348,7 @@ qsub rstudio_batch.job
 
 ---
 
-## Thanks!!
+## Thanks and Happy Computing!
 
 &lt;p align = "center"&gt; &lt;img src="cat.png" width="90%"&gt; &lt;/p&gt; 
 
