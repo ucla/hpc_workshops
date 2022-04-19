@@ -1,0 +1,16 @@
+#!/bin/bash
+#$ -cwd
+#$ -o joblog.$JOB_ID
+#$ -j y
+#$ -l h_rt=0:30:00,h_data=10G
+
+
+# load the job environment:
+. /u/local/Modules/default/init/modules.sh
+module load apptainer/1.0.0
+
+# Run singulariy as a single python3 command 
+# Container part: apptainer exec tensorflow_2.7.1.sif
+# Command: python3 tf-example.py
+
+apptainer exec tensorflow_2.7.1.sif  python3 tf-example.py > tf-example-batch.out
