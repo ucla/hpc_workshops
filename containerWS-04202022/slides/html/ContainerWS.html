@@ -428,6 +428,7 @@
 <li><p>Portability</p></li>
 <li><p>Reproducibility</p></li>
 <li><p>Design your own environment</p></li>
+<li><p>Version control</p></li>
 </ul>
 </div><div class="column" style="width:60%;">
 <p><img data-src="container1.png"></p>
@@ -454,19 +455,36 @@
 </section>
 <section id="container-advantages" class="slide level2">
 <h2>Container Advantages</h2>
-<p>Install your application once, then transfer your software to any HPC resource</p>
-<p>A ‘virtual’ OS - users can have complete OS admin control</p>
+<ul>
+<li><p>Install your application once</p>
+<ul>
+<li>Use on any HPC resource</li>
+</ul></li>
+<li><p>A ‘virtual’ OS</p>
+<ul>
+<li>users can have complete OS admin control</li>
+</ul></li>
+</ul>
 <div class="columns">
-<div class="column" style="width:60%;">
+<div class="column fragment" style="width:50%;">
 <ul>
 <li><p>Great to easily install software with apt/yum</p></li>
 <li><p>Great if you software requires MANY dependencies that would be complex installing on Hoffman2.</p></li>
-<li><p>Easily share containers!!</p></li>
 </ul>
-</div><div class="column" style="width:40%;">
-<p><img data-src="container3.png"></p>
+</div><div class="column fragment" style="width:50%;">
+<ul>
+<li>Easily share containers!!
+<ul>
+<li>containers as a .SIF file</li>
+<li>save to a Cloud Container Registry
+<ul>
+<li><a href="https://hub.docker.com/">DockerHub</a>, <a href="https://github.com/features/packages">GitHub packages</a>, <a href="https://catalog.ngc.nvidia.com/">Nvidia NGC</a></li>
+</ul></li>
+</ul></li>
+</ul>
 </div>
 </div>
+<p><img data-src="container3.png" class="absolute" style="top: 0px; right: 0px; "></p>
 </section>
 <section id="software-for-containers" class="slide level2 smaller">
 <h2>Software for Containers</h2>
@@ -484,12 +502,14 @@
 <li>MPI over multiple servers not well supported</li>
 <li>Most likely NOT available on many HPC systems (not on Hoffman2)</li>
 </ul>
+<div class="fragment">
 <p>Podman</p>
 <ul>
 <li>Similar syntax as with Docker</li>
 <li>Doesn’t have a root daemon process</li>
 <li>On some HPC resources (not on Hoffman2, yet)</li>
 </ul>
+</div>
 </div>
 </div>
 </section>
@@ -642,6 +662,7 @@ apptainer exec mypython.sif python3 test.py
 <!-- -->
 <pre><code>apptainer shell [options]
 apptainer shell mypython.sif</code></pre>
+<p>NOTE: Apptainer will NOT run on Hoffman2 login nodes.</p>
 </section>
 <section>
 <section id="examples" class="title-slide slide level1 center">
@@ -788,8 +809,14 @@ apptainer exec --nv tensorflow_2.7.1.sif python3 tf-example.py</code></pre>
 <section id="example-4" class="slide level2">
 <h2>Example 4</h2>
 <p>For this example, you will need Apptainer and/or Docker installed on a machine that you have admin/sudo access.</p>
-<p>You may use <code>wscontainers.ova</code> VM to use with VirtualBoX. This has both Apptainer and Docker pre-installed.</p>
-<p>Username: wscontainer password: wscontainer</p>
+<p>In order to build or modify containers, you must have admin access</p>
+<ul>
+<li>So you cannot do this on Hoffman2</li>
+</ul>
+<p>You may use <code>wscontainers.ova</code> VM to use with VirtualBoX. Both Apptainer and Docker pre-installed.</p>
+<ul>
+<li>Username &amp; password : wscontainer</li>
+</ul>
 <p>You can find how to install this software on your own from the <code>install.md</code> file.</p>
 </section>
 <section id="example-4-method-1---writable-sandbox" class="slide level2">
@@ -851,6 +878,7 @@ exit</code></pre>
 <pre><code>sudo docker save quill:1.0 &gt; quill.tar
 apptainer build QUILL.sif docker-archive://quill.tar
 scp QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</code></pre>
+<p>Alternatively, you can <code>docker push</code> your container to DockerHub, GitHub, etc and run <code>docker pull</code> on Hoffman2.</p>
 </section>
 <section id="example-4-running-container" class="slide level2">
 <h2>Example 4: Running Container</h2>
@@ -875,15 +903,16 @@ scp QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</code></pre>
 <section id="more-things-to-think-about" class="slide level2">
 <h2>More Things to Think About</h2>
 <ul>
-<li>Share .sif files with your friends!
+<li><p>Share .sif files with your friends!</p>
 <ul>
 <li>Save your (Docker) containers to DockerHub or GitHub Packages</li>
 </ul></li>
-<li>Find examples of Dockerfiles and Apptainer def files on my GitHub
+<li><p>Find examples of Dockerfiles and Apptainer def files on my GitHub</p>
 <ul>
 <li><a href="https://github.com/charliecpeterson/containers">https://github.com/charliecpeterson/containers</a></li>
 </ul></li>
-<li>Look out for a follow-up workshop
+<li><p>Experiment creating your containers with writable sandboxs, then create Def/Dockerfile to with all your commands so to rebuild/modify containers later</p></li>
+<li><p>Look out for a follow-up workshop</p>
 <ul>
 <li>Container Building</li>
 </ul></li>

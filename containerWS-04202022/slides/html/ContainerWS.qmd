@@ -130,13 +130,15 @@ Container Setup
 
 ::: columns
 ::: {.column width="40%"}
--   Bring your own OS
+- Bring your own OS
 
--   Portability
+- Portability
 
--   Reproducibility
+- Reproducibility
 
--   Design your own environment
+- Design your own environment
+
+- Version control 
 :::
 
 ::: {.column width="60%"}
@@ -168,25 +170,35 @@ HPC resources (like Hoffman2) are **SHARED** resources
 
 ## Container Advantages
 
-Install your application once, then transfer your software to any HPC
-resource
+- Install your application once 
+  - Use on any HPC resource
 
-A 'virtual' OS - users can have complete OS admin control
+- A 'virtual' OS 
+
+  - users can have complete OS admin control
 
 ::: columns
-::: {.column width="60%"}
+::: {.column .fragment width="50%"}
 -   Great to easily install software with apt/yum
 
 -   Great if you software requires MANY dependencies that would be
     complex installing on Hoffman2.
 
--   Easily share containers!!
+    
 :::
 
-::: {.column width="40%"}
-![](container3.png)
+::: {.column .fragment width="50%"}
+
+- Easily share containers!!
+    - containers as a .SIF file
+    - save to a Cloud Container Registry 
+      - [DockerHub](https://hub.docker.com/), [GitHub packages](https://github.com/features/packages), [Nvidia NGC](https://catalog.ngc.nvidia.com/)
+    
+
 :::
 :::
+
+![](container3.png){.absolute top="0" right="0"}
 
 ## Software for Containers {.smaller}
 
@@ -204,11 +216,15 @@ Docker
 -   MPI over multiple servers not well supported
 -   Most likely NOT available on many HPC systems (not on Hoffman2)
 
+
+::: {.fragment}
 Podman
 
 -   Similar syntax as with Docker
 -   Doesn't have a root daemon process
 -   On some HPC resources (not on Hoffman2, yet)
+:::
+
 :::
 :::
 
@@ -396,6 +412,8 @@ Common Apptainer commands:
     apptainer shell [options]
     apptainer shell mypython.sif
 
+NOTE: Apptainer will NOT run on Hoffman2 login nodes.
+
 # Examples
 
 -   Example 1: Simple container jobs
@@ -571,10 +589,13 @@ Build using three methods
 
 For this example, you will need Apptainer and/or Docker installed on a machine that you have admin/sudo access.
 
-You may use `wscontainers.ova` VM to use with VirtualBoX. This has both Apptainer and Docker pre-installed.
+In order to build or modify containers, you must have admin access
 
-Username: wscontainer
-password: wscontainer
+- So you cannot do this on Hoffman2
+
+You may use `wscontainers.ova` VM to use with VirtualBoX. Both Apptainer and Docker pre-installed.
+
+- Username & password : wscontainer
 
 You can find how to install this software on your own from the `install.md` file.
 
@@ -655,6 +676,8 @@ Save docker image to apptainer container
     apptainer build QUILL.sif docker-archive://quill.tar
     scp QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu
 
+Alternatively, you can `docker push` your container to DockerHub, GitHub, etc and run `docker pull` on Hoffman2.
+
 ## Example 4: Running Container
 
 Once the container is on Hoffman2, submit job.
@@ -689,6 +712,9 @@ Size of container
     -   Save your (Docker) containers to DockerHub or GitHub Packages
 -   Find examples of Dockerfiles and Apptainer def files on my GitHub
     -   [https://github.com/charliecpeterson/containers](https://github.com/charliecpeterson/containers)
+
+- Experiment creating your containers with writable sandboxs, then create Def/Dockerfile to with all your commands so to rebuild/modify containers later
+
 -   Look out for a follow-up workshop
     -   Container Building
 
