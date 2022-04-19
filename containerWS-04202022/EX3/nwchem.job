@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -cwd
+#$ -o h2o.$JOB_ID
+#$ -j y
+#$ -l h_rt=1:00:00,h_data=5G
+#$ -pe shared 5
+#$ -l arch=intel-gold*
+
+# load the job environment:
+. /u/local/Modules/default/init/modules.sh
+module load intel/2022.1.1
+module load apptainer/1.0.0
+
+echo "running 1 core"
+time  apptainer exec $H2_CONTAINER_LOC/h2-nwchem_7.0.2.sif nwchem water.nw  > water.SERIAL.out
+rm h2o*
+
+echo "running 5 cores"
+time `which mpirun` apptainer exec $H2_CONTAINER_LOC/h2-nwchem_7.0.2.sif nwchem water.nw  > water.MPI.out
