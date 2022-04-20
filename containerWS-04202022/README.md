@@ -11,6 +11,8 @@ Charles Peterson, OARC
 `slides` folder has the slides from this presentaion
 
 - `html` subfolder has the html slide format
+	- `ContainerWS.html` main html file
+	- `ContainerWS.qmd` is the Quarto file used to create slides
 
 - `ContainerWS.pdf` is a PDF version of the slides
 
