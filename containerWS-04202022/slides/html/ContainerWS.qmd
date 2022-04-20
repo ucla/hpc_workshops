@@ -45,8 +45,9 @@ folder
 
 The `slides` folder has this slides.
 
--   PDF format: `ContainerWS.pdf`
--   html format: `html` directory
+- PDF format: `ContainerWS.pdf`
+- html format: `html` directory 
+    - `ContainerWS.html`
 
 Note: This presentation was build with Quarto/Rstudio.
 
@@ -73,7 +74,7 @@ Stampede2 source - https://portal.tacc.utexas.edu/user-guides/stampede2
 ## Virtualization
 
 To understand how Containers work, we will have a brief overview on
-Visualization
+virtualization
 
 ::: columns
 ::: {.column .fragment width="60%"}
@@ -109,7 +110,7 @@ Virtual Machine setup
 :::
 :::
 
-## Virualization
+## Virtualization
 
 Container Setup
 
@@ -146,7 +147,7 @@ Container Setup
 :::
 :::
 
-## Problems instaling apps
+## Problems installing software
 
 -   Researchers typically have to spends lots of time installing
     software in their personal (HOME) directories, load modules, every time
@@ -155,7 +156,7 @@ Container Setup
 -   Then start all over when using software on a different HPC resource
 
 ::: columns
-::: {.column width="60%"}
+::: {.column width="60%" .fragment}
 HPC resources (like Hoffman2) are **SHARED** resources
 
 -   Researchers are running software on the same computing resource
@@ -322,7 +323,7 @@ apptainer pull docker://ubuntu:20.04
 -   Use a container pre-built on Hoffman2
 
 ```{.bash }
-#Pre-built container ocation on Hoffman2
+#Pre-built container location on Hoffman2
 ls $H2_CONTAINER_LOC
 ```
 
@@ -408,7 +409,7 @@ Common Apptainer commands:
 -   Run a command within a container
 
 ```{.bash}
-apptainer exec [options]
+apptainer exec [options] container.sif
 apptainer exec mypython.sif python3 test.py
 # Runs the command `python3 test.py` inside the container
 ```
@@ -416,11 +417,32 @@ apptainer exec mypython.sif python3 test.py
 -   Start an interactive session inside your container
 
 ```{.bash}
-apptainer shell [options]
+apptainer shell [options] container.sif
 apptainer shell mypython.sif
 ```
 
 NOTE: Apptainer will NOT run on Hoffman2 login nodes.
+
+
+## **MAJOR TAKEWAY**
+
+
+You will run the same commands as you normally do, just add the `apptainer shell/exec container.sif` line in front of your command
+
+So....
+
+```{.bash}
+python3 test.py
+R CMD BATCH test.R
+```
+
+Turns into to
+
+```{.bash}
+apptainer exec myPython.sif python3 test.py
+apptainer exec myR.sif R CMD BATCH test.R
+```
+
 
 # Examples
 
@@ -443,8 +465,15 @@ cd hpc_workshops/containerWS-04202022
 
 ## Example 1: TensorFlow
 
--   Go to `EX1` directory
--   Look at `tf-example.py`
+This example will use [Tensorflow](https://www.tensorflow.org/)
+
+A great library for develop Machine Learning models
+
+- Go to `EX1` directory
+- Look at `tf-example.py`
+  - Simple example to train [MNIST](http://yann.lecun.com/exdb/mnist/) dataset 
+
+::: {.fragment}
 
 To run this job, we will run
 
@@ -457,6 +486,8 @@ Need tensorflow!!!
 -   Instead of installing it yourself, let is find a container
 
 Visit [DockerHub](https://hub.docker.com/)
+
+::: 
 
 ## Example 1: TensorFlow (interactive)
 
@@ -482,7 +513,7 @@ apptainer pull docker://tensorflow/tensorflow:2.7.1
 
 -   We see a SIF file named, tensorflow_2.7.1.sif
 
--   Start an interactive shell INSIDE the container
+-   Start an interactive shell **INSIDE** the container
 
 ```{.bash}
 apptainer shell tensorflow_2.7.1.sif
@@ -500,6 +531,7 @@ apptainer pull docker://tensorflow/tensorflow:2.7.1
 apptainer exec tensorflow_2.7.1.sif python3 tf-example.py
 ```
 
+::: {.fragment}
 Alternatively, you can submit this as a batch job
 
 -   Example job script: `tf-example.job`
@@ -508,23 +540,37 @@ Alternatively, you can submit this as a batch job
 qsub tf-example.job
 ```
 
+:::
+
+::: {.fragment}
+
 NOTE:
 
 -   See that we didn't need to load any python module!
--   We didn't need to install any TF packages!!
+-   We didn't need to install any TF packages ourselves!!
 
-## Example 2: GPU containers
+:::
+
+## Example 2: GPU containers (PyTorch)
+
+This example uses [PyTorch](https://pytorch.org/) with GPU support for faster speed.
+
+PyTorch is another great Machine Learning framework.
 
 Look under `EX2`
 
-This example will use Pytorch with GPU compute nodes
+- File: `pytorch_gpu.py`
 
--   File: `pytorch_gpu.py`
+This example will optimize a polynomial to a sine function
+
+:::{.fragment}
 
 Let us go to [Nvidia GPU Cloud (NGC)](https://catalog.ngc.nvidia.com/)
 
 -   Containers built by Nvidia
 -   Optimized for GPU jobs
+
+:::
 
 ## Example 2: GPU job
 
@@ -552,23 +598,29 @@ apptainer shell pytorch_22.03-py3
 apptainer exec --nv tensorflow_2.7.1.sif python3 tf-example.py
 ```
 
+:::{.fragment}
+
 Alternatively, you can submit this as a batch job
 
 ```{.bash}
 qsub pytorch_gpu.job
 ```
 
+:::
+
 ## Example 3: Parallel MPI containers
 
-This example will run a parallel MPI container with NWChem
+One of my fav Computational Chemistry application is [NWChem](https://nwchemgit.github.io/)
 
-Many applications use MPI to run over many CPUs.
+This example will run a parallel MPI container
 
-One of my fav Computational Chemistry application is NWChem
+- Many applications use MPI to run over many CPUs.
+
+:::{.fragment}
 
 On Hoffman2, we have already built a NWChem container with MPI
 
-`$H2_CONTAINER_LOC/h2_nwchem:7.0.2.sif`
+- `$H2_CONTAINER_LOC/h2_nwchem:7.0.2.sif`
 
 Run the Parallel NWChem job
 
@@ -576,24 +628,33 @@ Run the Parallel NWChem job
 qsub nwchem-MPI.job
 ```
 
+:::
+
 ## Example 3: Parallel MPI containers
 
 NOTE: Typically, you will run MPI application by following the format
 
 ```{.bash}
+module load intel/2022.1.1
 mpirun myapp.x
 ```
 
 Inside the container, you have mpirun before the `apptainer` command
 
 ```{.bash}
+module load intel/2022.1.1
+module load apptainer/1.0.0
 mpirun apptainer exec myapp.sif myapp.x
 ```
+
+For running MPI inside the container, you **MUST** have MPI on the Host (outside of the container). 
+
+In this case, `intel/2022.1.1` will have IntelMPI
 
 ## Example 4: Building container
 
 
-I have a chemistry code I built on github
+I coded a chemistry app located on github
 
 -   [https://github.com/charliecpeterson/QUILL](https://github.com/charliecpeterson/QUILL)
 
@@ -627,24 +688,28 @@ In order to build or modify containers, you must have admin access
 
 - So you cannot do this on Hoffman2
 
-You may use `wscontainers.ova` VM to use with VirtualBoX. Both Apptainer and Docker pre-installed.
+:::{.fragment}
+
+You may use `wscontainers.ova` VM to use with VirtualBox. Both Apptainer and Docker pre-installed.
 
 - Username & password : wscontainer
 
 You can find how to install this software on your own from the `install.md` file.
+
+:::
 
 ## Example 4: Method 1 - Writable Sandbox
 
 This example will create a container by installing software inside of a
 container interactively
 
--   Create a writable container, starting from base ubuntu image
+-   Create a writable container, starting from base ubuntu image. We will call is container, `quill.sif`
 
 ```{.bash}
 sudo apptainer build --sandbox quill.sif docker://ubuntu:20.04
 ```
 
--   Go inside writable container (Modification are saved)
+-   Go inside the writable container (Modifications will be saved)
 
 ```{.bash}
 sudo apptainer shell --writable quill.sif
@@ -692,11 +757,13 @@ sudo apptainer build quill.sif quill.def
 
 The `quill.sif` container is created
 
+
 Move container to Hoffman2
 
 ```{.bash}
 scp QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu
 ```
+
 
 ## Example 4: Method 3: Docker
 
@@ -722,7 +789,12 @@ apptainer build QUILL.sif docker-archive://quill.tar
 scp QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu
 ```
 
+:::{.fragment}
+
 Alternatively, you can `docker push` your container to DockerHub, GitHub, etc and run `docker pull` on Hoffman2.
+
+:::
+
 
 ## Example 4: Running Container
 
@@ -732,27 +804,41 @@ Once the container is on Hoffman2, submit job.
 qsub quill.job
 ```
 
+:::{.fragment}
+
+More information on using Definition files 
+
+- [https://apptainer.org/docs/user/1.0/definition_files.html](https://apptainer.org/docs/user/1.0/definition_files.html)
+
+
+More information on using Dockerfiles
+
+- [https://docs.docker.com/engine/reference/builder/](https://docs.docker.com/engine/reference/builder/)
+
+:::
+
 ## Things to Think About
 
 Size of container
 
--   Try to keep the size of your container small and minimal
+- Try to keep the size of your container small and minimal
 
-    -   Only have the things necessary for your applications to run
+    - Only have the things necessary for your applications to run
 
--   Large containers will need more MEMORY and will take more take to
+- Large containers will need more **memory** and will take more take to
     start up
 
--   Currently, the non-setid version of Appatiner will convert all .sif
-    files to sandbox before running - Large containers can increase the
-    conversion time.
+::: {.fragment}
+- Currently, the non-setid version of Appatiner will convert all .sif files to sandbox before running - Large containers can increase the conversion time.
 
--   Good idea to build a sandbox container before running appainer to
+- Good idea to build a sandbox container before running appainer to
     save time
 
 ```{.bash}
 appatiner build --sandbox test-sandbox/ test.sif
 ```
+
+:::
 
 ## More Things to Think About
 
@@ -761,10 +847,13 @@ appatiner build --sandbox test-sandbox/ test.sif
 -   Find examples of Dockerfiles and Apptainer def files on my GitHub
     -   [https://github.com/charliecpeterson/containers](https://github.com/charliecpeterson/containers)
 
+:::{.fragment}
+
 - Experiment creating your containers with writable sandboxs, then create Def/Dockerfile to with all your commands so to rebuild/modify containers later
 
 -   Look out for a follow-up workshop
     -   Container Building
+:::
 
 # Thank you!
 

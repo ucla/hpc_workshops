@@ -414,7 +414,10 @@
 <p>The <code>slides</code> folder has this slides.</p>
 <ul>
 <li>PDF format: <code>ContainerWS.pdf</code></li>
-<li>html format: <code>html</code> directory</li>
+<li>html format: <code>html</code> directory
+<ul>
+<li><code>ContainerWS.html</code></li>
+</ul></li>
 </ul>
 <p>Note: This presentation was build with Quarto/Rstudio.</p>
 <ul>
@@ -439,7 +442,7 @@
 </section>
 <section id="virtualization" class="slide level2">
 <h2>Virtualization</h2>
-<p>To understand how Containers work, we will have a brief overview on Visualization</p>
+<p>To understand how Containers work, we will have a brief overview on virtualization</p>
 <div class="columns">
 <div class="column fragment" style="width:60%;">
 <p><strong>Bare computer setup</strong></p>
@@ -469,8 +472,8 @@
 </div>
 </div>
 </section>
-<section id="virualization" class="slide level2">
-<h2>Virualization</h2>
+<section id="virtualization-2" class="slide level2">
+<h2>Virtualization</h2>
 <p>Container Setup</p>
 <div class="columns">
 <div class="column fragment" style="width:60%;">
@@ -499,14 +502,14 @@
 </div>
 </div>
 </section>
-<section id="problems-instaling-apps" class="slide level2">
-<h2>Problems instaling apps</h2>
+<section id="problems-installing-software" class="slide level2">
+<h2>Problems installing software</h2>
 <ul>
 <li><p>Researchers typically have to spends lots of time installing software in their personal (HOME) directories, load modules, every time software is used</p></li>
 <li><p>Then start all over when using software on a different HPC resource</p></li>
 </ul>
 <div class="columns">
-<div class="column" style="width:60%;">
+<div class="column fragment" style="width:60%;">
 <p>HPC resources (like Hoffman2) are <strong>SHARED</strong> resources</p>
 <ul>
 <li><p>Researchers are running software on the same computing resource</p></li>
@@ -652,7 +655,7 @@
 <ul>
 <li>Use a container pre-built on Hoffman2</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#Pre-built container ocation on Hoffman2</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#Pre-built container location on Hoffman2</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="fu">ls</span> <span class="va">$H2_CONTAINER_LOC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -712,15 +715,25 @@
 <ul>
 <li>Run a command within a container</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">apptainer</span> exec [options]</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">apptainer</span> exec [options] container.sif</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="ex">apptainer</span> exec mypython.sif python3 test.py</span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="co"># Runs the command `python3 test.py` inside the container</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Start an interactive session inside your container</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="ex">apptainer</span> shell [options]</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="ex">apptainer</span> shell [options] container.sif</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="ex">apptainer</span> shell mypython.sif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>NOTE: Apptainer will NOT run on Hoffman2 login nodes.</p>
+</section>
+<section id="major-takeway" class="slide level2">
+<h2><strong>MAJOR TAKEWAY</strong></h2>
+<p>You will run the same commands as you normally do, just add the <code>apptainer shell/exec container.sif</code> line in front of your command</p>
+<p>So….</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">python3</span> test.py</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="ex">R</span> CMD BATCH test.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Turns into to</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="ex">apptainer</span> exec myPython.sif python3 test.py</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="ex">apptainer</span> exec myR.sif R CMD BATCH test.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section>
 <section id="examples" class="title-slide slide level1 center">
@@ -733,23 +746,30 @@
 </ul>
 <div class="fragment">
 <p>Workshop material</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">git</span> clone https://github.com/ucla/hpc_workshops</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="bu">cd</span> hpc_workshops/containerWS-04202022</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">git</span> clone https://github.com/ucla/hpc_workshops</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="bu">cd</span> hpc_workshops/containerWS-04202022</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="example-1-tensorflow" class="slide level2">
 <h2>Example 1: TensorFlow</h2>
+<p>This example will use <a href="https://www.tensorflow.org/">Tensorflow</a></p>
+<p>A great library for develop Machine Learning models</p>
 <ul>
 <li>Go to <code>EX1</code> directory</li>
-<li>Look at <code>tf-example.py</code></li>
+<li>Look at <code>tf-example.py</code>
+<ul>
+<li>Simple example to train <a href="http://yann.lecun.com/exdb/mnist/">MNIST</a> dataset</li>
+</ul></li>
 </ul>
+<div class="fragment">
 <p>To run this job, we will run</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="ex">python3</span> tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="ex">python3</span> tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Need tensorflow!!!</p>
 <ul>
 <li>Instead of installing it yourself, let is find a container</li>
 </ul>
 <p>Visit <a href="https://hub.docker.com/">DockerHub</a></p>
+</div>
 </section>
 <section id="example-1-tensorflow-interactive" class="slide level2">
 <h2>Example 1: TensorFlow (interactive)</h2>
@@ -757,90 +777,111 @@
 <ul>
 <li>Start an interactive session</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="ex">qrsh</span> <span class="at">-l</span> h_data=10G</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="ex">qrsh</span> <span class="at">-l</span> h_data=10G</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>load the apptainer module</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="ex">module</span> load apptainer/1.0.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="ex">module</span> load apptainer/1.0.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>pull the TensorFlow container from DockerHub</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="ex">apptainer</span> pull docker://tensorflow/tensorflow:2.7.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="ex">apptainer</span> pull docker://tensorflow/tensorflow:2.7.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><p>We see a SIF file named, tensorflow_2.7.1.sif</p></li>
-<li><p>Start an interactive shell INSIDE the container</p></li>
+<li><p>Start an interactive shell <strong>INSIDE</strong> the container</p></li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="ex">apptainer</span> shell tensorflow_2.7.1.sif</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="ex">python3</span> tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1"></a><span class="ex">apptainer</span> shell tensorflow_2.7.1.sif</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="ex">python3</span> tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="example-1-tensorflow-batch" class="slide level2">
 <h2>Example 1: TensorFlow (batch)</h2>
 <p>Run a command inside the container</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="ex">qrsh</span> <span class="at">-l</span> h_data=10G</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="ex">module</span> load apptainer/1.0.0</span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="ex">apptainer</span> pull docker://tensorflow/tensorflow:2.7.1</span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="ex">apptainer</span> exec tensorflow_2.7.1.sif python3 tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a><span class="ex">qrsh</span> <span class="at">-l</span> h_data=10G</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="ex">module</span> load apptainer/1.0.0</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="ex">apptainer</span> pull docker://tensorflow/tensorflow:2.7.1</span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="ex">apptainer</span> exec tensorflow_2.7.1.sif python3 tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
 <p>Alternatively, you can submit this as a batch job</p>
 <ul>
 <li>Example job script: <code>tf-example.job</code></li>
 </ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1"></a><span class="ex">qsub</span> tf-example.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="ex">qsub</span> tf-example.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
 <p>NOTE:</p>
 <ul>
 <li>See that we didn’t need to load any python module!</li>
-<li>We didn’t need to install any TF packages!!</li>
+<li>We didn’t need to install any TF packages ourselves!!</li>
 </ul>
+</div>
 </section>
-<section id="example-2-gpu-containers" class="slide level2">
-<h2>Example 2: GPU containers</h2>
+<section id="example-2-gpu-containers-pytorch" class="slide level2">
+<h2>Example 2: GPU containers (PyTorch)</h2>
+<p>This example uses <a href="https://pytorch.org/">PyTorch</a> with GPU support for faster speed.</p>
+<p>PyTorch is another great Machine Learning framework.</p>
 <p>Look under <code>EX2</code></p>
-<p>This example will use Pytorch with GPU compute nodes</p>
 <ul>
 <li>File: <code>pytorch_gpu.py</code></li>
 </ul>
+<p>This example will optimize a polynomial to a sine function</p>
+<div class="fragment">
 <p>Let us go to <a href="https://catalog.ngc.nvidia.com/">Nvidia GPU Cloud (NGC)</a></p>
 <ul>
 <li>Containers built by Nvidia</li>
 <li>Optimized for GPU jobs</li>
 </ul>
+</div>
 </section>
 <section id="example-2-gpu-job" class="slide level2">
 <h2>Example 2: GPU job</h2>
 <p>First, you will need a GPU compute node</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a><span class="ex">qrsh</span> <span class="at">-l</span> h_data=10G,gpu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a><span class="ex">qrsh</span> <span class="at">-l</span> h_data=10G,gpu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Download PyTorch from Nvidia NGC</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="ex">module</span> load apptainer/1.0.0</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="ex">apptainer</span> pull docker://nvcr.io/nvidia/pytorch:22.03-py3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="ex">module</span> load apptainer/1.0.0</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="ex">apptainer</span> pull docker://nvcr.io/nvidia/pytorch:22.03-py3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Run apptainer with the <code>--nv</code> option. This option will find the GPU drivers from Host compute node</p>
 <ul>
 <li>See if container can find the GPUs</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a><span class="ex">apptainer</span> shell pytorch_22.03-py3 </span>
-<span id="cb21-2"><a href="#cb21-2"></a></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="ex">apptainer</span> exec <span class="at">--nv</span> tensorflow_2.7.1.sif python3 tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1"></a><span class="ex">apptainer</span> shell pytorch_22.03-py3 </span>
+<span id="cb23-2"><a href="#cb23-2"></a></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="ex">apptainer</span> exec <span class="at">--nv</span> tensorflow_2.7.1.sif python3 tf-example.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
 <p>Alternatively, you can submit this as a batch job</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="ex">qsub</span> pytorch_gpu.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="ex">qsub</span> pytorch_gpu.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="example-3-parallel-mpi-containers" class="slide level2">
 <h2>Example 3: Parallel MPI containers</h2>
-<p>This example will run a parallel MPI container with NWChem</p>
-<p>Many applications use MPI to run over many CPUs.</p>
-<p>One of my fav Computational Chemistry application is NWChem</p>
+<p>One of my fav Computational Chemistry application is <a href="https://nwchemgit.github.io/">NWChem</a></p>
+<p>This example will run a parallel MPI container</p>
+<ul>
+<li>Many applications use MPI to run over many CPUs.</li>
+</ul>
+<div class="fragment">
 <p>On Hoffman2, we have already built a NWChem container with MPI</p>
-<p><code>$H2_CONTAINER_LOC/h2_nwchem:7.0.2.sif</code></p>
+<ul>
+<li><code>$H2_CONTAINER_LOC/h2_nwchem:7.0.2.sif</code></li>
+</ul>
 <p>Run the Parallel NWChem job</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1"></a><span class="ex">qsub</span> nwchem-MPI.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="ex">qsub</span> nwchem-MPI.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="example-3-parallel-mpi-containers-1" class="slide level2">
 <h2>Example 3: Parallel MPI containers</h2>
 <p>NOTE: Typically, you will run MPI application by following the format</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="ex">mpirun</span> myapp.x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="ex">module</span> load intel/2022.1.1</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="ex">mpirun</span> myapp.x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Inside the container, you have mpirun before the <code>apptainer</code> command</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="ex">mpirun</span> apptainer exec myapp.sif myapp.x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1"></a><span class="ex">module</span> load intel/2022.1.1</span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="ex">module</span> load apptainer/1.0.0</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="ex">mpirun</span> apptainer exec myapp.sif myapp.x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For running MPI inside the container, you <strong>MUST</strong> have MPI on the Host (outside of the container).</p>
+<p>In this case, <code>intel/2022.1.1</code> will have IntelMPI</p>
 </section>
 <section id="example-4-building-container" class="slide level2">
 <h2>Example 4: Building container</h2>
-<p>I have a chemistry code I built on github</p>
+<p>I coded a chemistry app located on github</p>
 <ul>
 <li><a href="https://github.com/charliecpeterson/QUILL">https://github.com/charliecpeterson/QUILL</a></li>
 </ul>
@@ -870,74 +911,88 @@
 <ul>
 <li>So you cannot do this on Hoffman2</li>
 </ul>
-<p>You may use <code>wscontainers.ova</code> VM to use with VirtualBoX. Both Apptainer and Docker pre-installed.</p>
+<div class="fragment">
+<p>You may use <code>wscontainers.ova</code> VM to use with VirtualBox. Both Apptainer and Docker pre-installed.</p>
 <ul>
 <li>Username &amp; password : wscontainer</li>
 </ul>
 <p>You can find how to install this software on your own from the <code>install.md</code> file.</p>
+</div>
 </section>
 <section id="example-4-method-1---writable-sandbox" class="slide level2">
 <h2>Example 4: Method 1 - Writable Sandbox</h2>
 <p>This example will create a container by installing software inside of a container interactively</p>
 <ul>
-<li>Create a writable container, starting from base ubuntu image</li>
+<li>Create a writable container, starting from base ubuntu image. We will call is container, <code>quill.sif</code></li>
 </ul>
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">sudo</span> apptainer build <span class="at">--sandbox</span> quill.sif docker://ubuntu:20.04</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">sudo</span> apptainer build <span class="at">--sandbox</span> quill.sif docker://ubuntu:20.04</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>Go inside writable container (Modification are saved)</li>
+<li>Go inside the writable container (Modifications will be saved)</li>
 </ul>
-<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">sudo</span> apptainer shell <span class="at">--writable</span> quill.sif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">sudo</span> apptainer shell <span class="at">--writable</span> quill.sif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="example-4-method-1---writable-sandbox-1" class="slide level2">
 <h2>Example 4: Method 1 - Writable Sandbox</h2>
 <ul>
 <li>Install QUILL</li>
 </ul>
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1"></a><span class="ex">apt-get</span> update</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="va">DEBIAN_FRONTEND</span><span class="op">=</span>noninteractive <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a>       git python3 python3-dev python3-pip <span class="dt">\</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a>       libeigen3-dev ca-certificates cmake make gcc g++</span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a></span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="ex">pip3</span> install pyscf</span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="fu">ln</span> <span class="at">-s</span> /usr/bin/python3 /usr/bin/python</span>
-<span id="cb28-9"><a href="#cb28-9"></a><span class="fu">mkdir</span> <span class="at">-pv</span> /apps</span>
-<span id="cb28-10"><a href="#cb28-10"></a><span class="bu">cd</span> /apps</span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="fu">git</span> clone https://github.com/charliecpeterson/QUILL</span>
-<span id="cb28-12"><a href="#cb28-12"></a><span class="bu">cd</span> QUILL</span>
-<span id="cb28-13"><a href="#cb28-13"></a><span class="fu">mkdir</span> build <span class="kw">;</span> <span class="bu">cd</span> build</span>
-<span id="cb28-14"><a href="#cb28-14"></a><span class="fu">cmake</span> ..</span>
-<span id="cb28-15"><a href="#cb28-15"></a><span class="bu">exit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="ex">apt-get</span> update</span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="va">DEBIAN_FRONTEND</span><span class="op">=</span>noninteractive <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a>       git python3 python3-dev python3-pip <span class="dt">\</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a>       libeigen3-dev ca-certificates cmake make gcc g++</span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
+<span id="cb30-6"><a href="#cb30-6"></a></span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="ex">pip3</span> install pyscf</span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="fu">ln</span> <span class="at">-s</span> /usr/bin/python3 /usr/bin/python</span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="fu">mkdir</span> <span class="at">-pv</span> /apps</span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="bu">cd</span> /apps</span>
+<span id="cb30-11"><a href="#cb30-11"></a><span class="fu">git</span> clone https://github.com/charliecpeterson/QUILL</span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="bu">cd</span> QUILL</span>
+<span id="cb30-13"><a href="#cb30-13"></a><span class="fu">mkdir</span> build <span class="kw">;</span> <span class="bu">cd</span> build</span>
+<span id="cb30-14"><a href="#cb30-14"></a><span class="fu">cmake</span> ..</span>
+<span id="cb30-15"><a href="#cb30-15"></a><span class="bu">exit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Move final container to Hoffman2</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">scp</span> QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">scp</span> QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="example-4-method-2-definition-file" class="slide level2">
 <h2>Example 4: Method 2: Definition file</h2>
 <p>Install QUILL with a Defination file</p>
 <p>Look at <code>quill.def</code></p>
 <p>This file has all steps needed to build the QUILL container.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">sudo</span> apptainer build quill.sif quill.def</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a><span class="fu">sudo</span> apptainer build quill.sif quill.def</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>quill.sif</code> container is created</p>
 <p>Move container to Hoffman2</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">scp</span> QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">scp</span> QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="example-4-method-3-docker" class="slide level2">
 <h2>Example 4: Method 3: Docker</h2>
 <p>You can use Docker to create containers for apptainer</p>
 <p>The <code>Dockerfile-quill</code> file is used by Docker to create the container</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a><span class="fu">sudo</span> docker build . <span class="at">-t</span> quill:1.0 <span class="at">-f</span> Dockerfile-quill</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">sudo</span> docker build . <span class="at">-t</span> quill:1.0 <span class="at">-f</span> Dockerfile-quill</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>See built docker container</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">sudo</span> docker image list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">sudo</span> docker image list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Save docker image to apptainer container</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">sudo</span> docker save quill:1.0 <span class="op">&gt;</span> quill.tar</span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="ex">apptainer</span> build QUILL.sif docker-archive://quill.tar</span>
-<span id="cb34-3"><a href="#cb34-3"></a><span class="fu">scp</span> QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">sudo</span> docker save quill:1.0 <span class="op">&gt;</span> quill.tar</span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="ex">apptainer</span> build QUILL.sif docker-archive://quill.tar</span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="fu">scp</span> QUILL.sif H2USERNAME@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
 <p>Alternatively, you can <code>docker push</code> your container to DockerHub, GitHub, etc and run <code>docker pull</code> on Hoffman2.</p>
+</div>
 </section>
 <section id="example-4-running-container" class="slide level2">
 <h2>Example 4: Running Container</h2>
 <p>Once the container is on Hoffman2, submit job.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a><span class="ex">qsub</span> quill.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1"></a><span class="ex">qsub</span> quill.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>More information on using Definition files</p>
+<ul>
+<li><a href="https://apptainer.org/docs/user/1.0/definition_files.html">https://apptainer.org/docs/user/1.0/definition_files.html</a></li>
+</ul>
+<p>More information on using Dockerfiles</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/</a></li>
+</ul>
+</div>
 </section>
 <section id="things-to-think-about" class="slide level2">
 <h2>Things to Think About</h2>
@@ -947,29 +1002,37 @@
 <ul>
 <li>Only have the things necessary for your applications to run</li>
 </ul></li>
-<li><p>Large containers will need more MEMORY and will take more take to start up</p></li>
+<li><p>Large containers will need more <strong>memory</strong> and will take more take to start up</p></li>
+</ul>
+<div class="fragment">
+<ul>
 <li><p>Currently, the non-setid version of Appatiner will convert all .sif files to sandbox before running - Large containers can increase the conversion time.</p></li>
 <li><p>Good idea to build a sandbox container before running appainer to save time</p></li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="ex">appatiner</span> build <span class="at">--sandbox</span> test-sandbox/ test.sif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1"></a><span class="ex">appatiner</span> build <span class="at">--sandbox</span> test-sandbox/ test.sif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="more-things-to-think-about" class="slide level2">
 <h2>More Things to Think About</h2>
 <ul>
-<li><p>Share .sif files with your friends!</p>
+<li>Share .sif files with your friends!
 <ul>
 <li>Save your (Docker) containers to DockerHub or GitHub Packages</li>
 </ul></li>
-<li><p>Find examples of Dockerfiles and Apptainer def files on my GitHub</p>
+<li>Find examples of Dockerfiles and Apptainer def files on my GitHub
 <ul>
 <li><a href="https://github.com/charliecpeterson/containers">https://github.com/charliecpeterson/containers</a></li>
 </ul></li>
+</ul>
+<div class="fragment">
+<ul>
 <li><p>Experiment creating your containers with writable sandboxs, then create Def/Dockerfile to with all your commands so to rebuild/modify containers later</p></li>
 <li><p>Look out for a follow-up workshop</p>
 <ul>
 <li>Container Building</li>
 </ul></li>
 </ul>
+</div>
 </section></section>
 <section id="thank-you" class="title-slide slide level1 center">
 <h1>Thank you!</h1>
