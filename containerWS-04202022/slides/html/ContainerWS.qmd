@@ -73,7 +73,7 @@ Stampede2 source - https://portal.tacc.utexas.edu/user-guides/stampede2
 ## Virtualization
 
 To understand how Containers work, we will have a brief overview on
-Visualization
+virtualization
 
 ::: columns
 ::: {.column .fragment width="60%"}
@@ -109,7 +109,7 @@ Virtual Machine setup
 :::
 :::
 
-## Virualization
+## Virtualization
 
 Container Setup
 
