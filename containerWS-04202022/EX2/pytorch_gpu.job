@@ -3,6 +3,7 @@
 #$ -o joblog.$JOB_ID
 #$ -j y
 #$ -l h_rt=0:30:00,h_data=10G
+#$ -l gpu
 
 
 # load the job environment:
@@ -10,7 +11,7 @@
 module load apptainer/1.0.0
 
 # Run singulariy as a single python3 command 
-# Container part: apptainer exec tensorflow_2.7.1.sif
-# Command: python3 tf-example.py
+# Container part: apptainer exec pytorch_22.03-py3.sif
+# Command: python3 pytorch_gpu.py
 
-apptainer exec tensorflow_2.7.1.sif  python3 tf-example.py > tf-example-batch.out
+apptainer exec --nv pytorch_22.03-py3.sif  python3 pytorch_gpu.py > pytorch_gpu-batch.out
